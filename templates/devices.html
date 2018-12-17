@@ -4,13 +4,19 @@
     <h2>Hello {{ session['name'] }} </h2>
 {% endif %}
 
-<ul>
-{% for camera in cameras %}
-    <li>{{ camera.name }}</li>
-{% endfor %}
-</ul>
 
 
-blah blah blah
+<form action="/generate" method="post" enctype="multipart/form-data">
+    <select name="esn">
+    {% for camera in cameras %}
+        <option value="{{ camera.camera_id }}">{{ camera.name }}</option>
+    {% endfor %}
+    </select>    
+    <input type="date" name="start_time" placeholder="start time">
+    <input type="date" name="end_time" placeholder="end time">
+    <input type="submit" name="generate">
+</form>
+
+
 
 {% endblock %}
