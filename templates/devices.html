@@ -1,0 +1,16 @@
+{% block body %}
+
+{% if session['logged_in'] %}
+    <h2>Hello {{ session['name'] }} </h2>
+{% endif %}
+
+<ul>
+{% for camera in cameras %}
+    <li>{{ camera.name }}</li>
+{% endfor %}
+</ul>
+
+
+blah blah blah
+
+{% endblock %}
