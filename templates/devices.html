@@ -1,21 +1,24 @@
-{% block body %}
-
-{% if session['logged_in'] %}
-    <h2>Hello {{ session['name'] }} </h2>
-{% endif %}
+{% extends "base.html" %}
 
 
+{% block main %}
 
-<form action="/generate" method="post" enctype="multipart/form-data">
-    <select name="esn">
-    {% for camera in cameras %}
-        <option value="{{ camera.camera_id }}">{{ camera.name }}</option>
-    {% endfor %}
-    </select>    
-    <input type="date" name="start_time" placeholder="start time">
-    <input type="date" name="end_time" placeholder="end time">
-    <input type="submit" name="generate">
-</form>
+<div class="container"> 
+    <div class="row">
+        <div class="col-md-4 offset-4">
+            <form action="/generate" method="post" enctype="multipart/form-data">
+                <select name="esn">
+                {% for camera in cameras %}
+                    <option value="{{ camera.camera_id }}">{{ camera.name }}</option>
+                {% endfor %}
+                </select>    
+                <input type="date" name="start_time" placeholder="start time">
+                <input type="date" name="end_time" placeholder="end time">
+                <input type="submit" name="generate">
+            </form>
+        </div>
+    </div>
+</div>
 
 
 

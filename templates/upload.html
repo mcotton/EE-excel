@@ -1,48 +1,60 @@
-<!doctype html>
-<h1>Video Events</h1>
 
-<video width="640" height="360"  controls preload="auto" poster="">
-    <source src="" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+{% extends "base.html" %}
 
-<script>
-    player = document.getElementsByTagName('video')[0]
-</script>
+{% block main %}
+<div class="container"> 
+    <div class="row">
+        <div class="col-md-10 offset-2">
+            <h1>Video Events</h1>
 
-<table>
-    <thead>
-        <th>Camera ESN</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Play</th>
-        <th>Download</th>
-        <th>View in history browser</th>
-    </thead>
-    <tbody>
-    
-    {% for esn in template_values['esns'] %}
-        {% for item in template_values['esns'][esn] %}
-        <tr>
-            <td>{{ esn }}</td>
-            <td>{{ item['start_timestamp'] }}</td>
-            <td>{{ item['end_timestamp'] }}</td>
-            <td>
-                <button onClick="player.src='http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}';">Play</button>
-            </td>
-            <td>
-                <a href="http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
-                    <button>Download</button>
-                </a>
-            </td>
-            <td>
-                <a href="https://c000.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
-                    <button>view in history browser</button>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    {% endfor %}
-    
-    </tbody>
-</table>
+            <video width="640" height="360"  controls preload="auto" poster="">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <script>
+                player = document.getElementsByTagName('video')[0]
+            </script>
+
+            <table>
+                <thead>
+                    <th>Camera ESN</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Play</th>
+                    <th>Download</th>
+                    <th>View in history browser</th>
+                </thead>
+                <tbody>
+                
+                {% for esn in template_values['esns'] %}
+                    {% for item in template_values['esns'][esn] %}
+                    <tr>
+                        <td>{{ esn }}</td>
+                        <td>{{ item['start_timestamp'] }}</td>
+                        <td>{{ item['end_timestamp'] }}</td>
+                        <td>
+                            <button onClick="player.src='http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}';">Play</button>
+                        </td>
+                        <td>
+                            <a href="http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
+                                <button>Download</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="https://c000.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
+                                <button>view in history browser</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
