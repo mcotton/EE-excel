@@ -3,6 +3,13 @@
 
 
 {% block style %}
+<style>
+    table {
+        height: 400px;
+        display: block;
+        overflow-y: scroll;
+    }
+</style>
 {% endblock %}
 
 {% block main %}
@@ -32,42 +39,42 @@
 
             </script>
 
-            <table class="table">
-                <thead class="thead-dark">
-                    <th scope="col"></th>
-                    <th scope="col">Camera ESN</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Download</th>
-                    <th scope="col">View in history browser</th>
-                </thead>
-                <tbody class="">
-                
-                {% for esn in template_values['esns'] %}
-                    {% for item in template_values['esns'][esn] %}
-                    <tr>
-                        <td>
-                            <button onClick="play_video('{{ esn }}', '{{ item['start_timestamp'] }}', '{{ item['end_timestamp'] }}', '{{ template_values['een'].session.cookies['auth_key'] }}')">Play</button>
-                        </td>
-                        <td>{{ esn }}</td>
-                        <td>{{ item['start_timestamp'] }}</td>
-                        <td>{{ item['end_timestamp'] }}</td>
-                        <td>
-                            <a href="http://login.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
-                                <button>Download</button>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="https://login.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
-                                <button>view in history browser</button>
-                            </a>
-                        </td>
-                    </tr>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <th scope="col"></th>
+                        <th scope="col">Camera</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </thead>
+                    <tbody class="">
+                    
+                    {% for esn in template_values['esns'] %}
+                        {% for item in template_values['esns'][esn] %}
+                        <tr>
+                            <td>
+                                <button onClick="play_video('{{ esn }}', '{{ item['start_timestamp'] }}', '{{ item['end_timestamp'] }}', '{{ template_values['een'].session.cookies['auth_key'] }}')">Play</button>
+                            </td>
+                            <td>{{ esn }}</td>
+                            <td>{{ item['start_timestamp'] }}</td>
+                            <td>{{ item['end_timestamp'] }}</td>
+                            <td>
+                                <a href="http://login.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
+                                    <button>Download</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="https://login.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
+                                    <button>view in history browser</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-                
-                </tbody>
-            </table>
+                    
+                    </tbody>
+                </table>
         </div>
     </div>
 </div>
