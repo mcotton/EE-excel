@@ -28,34 +28,41 @@ def login_required(f):
 @app.route('/')
 def home():
     if not session.get('logged_in'):
-        return render_template('login.html')
+        return redirect('/login')
     else:
         return render_template('index.html')
  
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def do_admin_login():
-    if 'id' in session:
-        
-        if session['id'] in een_sessions:
-            een = een_sessions[session['id']]
-
+    if request.method == 'GET':
+        if not session.get('logged_in'):
+            return render_template('login.html')
         else:
-            een = EagleEye()
-            een_sessions[session['id']] = een 
-    else:
-        session['id'] = os.urandom(16)
-        een = EagleEye()
-        een_sessions[session['id']] = een
+            return redirect('/')
 
-    
-    if een.login(username=request.form['username'], password=request.form['password']):
-        session['logged_in'] = True
-        session['name'] = f"{een.user['first_name']} {een.user['last_name']}"    
+    if request.method == 'POST':
+        if 'id' in session:
+            
+            if session['id'] in een_sessions:
+                een = een_sessions[session['id']]
+
+            else:
+                een = EagleEye()
+                een_sessions[session['id']] = een 
+        else:
+            session['id'] = os.urandom(16)
+            een = EagleEye()
+            een_sessions[session['id']] = een
+
         
-    else:
-        flash('wrong password!')
-    
-    return home()
+        if een.login(username=request.form['username'], password=request.form['password']):
+            session['logged_in'] = True
+            session['name'] = f"{een.user['first_name']} {een.user['last_name']}"    
+            
+        else:
+            flash('wrong password!')
+        
+        return redirect('/')
  
 @app.route("/logout")
 def logout():
@@ -70,35 +77,33 @@ def logout():
     return home()
  
 
-@app.route("/devices")
-@login_required
-def list_devices():
-    een = een_sessions[session['id']]
-    return render_template('devices.html', cameras=een.cameras)
-
-@app.route('/generate', methods=['POST'])
+@app.route('/generate', methods=['GET', 'POST'])
 @login_required
 def generate_data():
+    if request.method == 'GET':
+        een = een_sessions[session['id']]
+        return render_template('devices.html', cameras=een.cameras)
 
-    esn = request.form.get('esn')
-    start_timestamp = request.form.get('start_time').replace('-','') + '000000.000' 
-    end_timestamp = request.form.get('end_time').replace('-','') + '235959.999' 
+    if request.method == 'POST':
+        esn = request.form.get('esn')
+        start_timestamp = request.form.get('start_time').replace('-','') + '000000.000' 
+        end_timestamp = request.form.get('end_time').replace('-','') + '235959.999' 
 
-    een = een_sessions[session['id']]
-    camera = een.find_by_esn(esn)
-    camera.get_video_list(instance=een, start_timestamp=start_timestamp, end_timestamp=end_timestamp)
+        een = een_sessions[session['id']]
+        camera = een.find_by_esn(esn)
+        camera.get_video_list(instance=een, start_timestamp=start_timestamp, end_timestamp=end_timestamp)
 
-    wb = Workbook()
-    ws = wb.active
+        wb = Workbook()
+        ws = wb.active
 
-    for video in camera.videos:
-        ws.append([camera.camera_id, video[0], video[1]])
+        for video in camera.videos:
+            ws.append([camera.camera_id, video[0], video[1]])
 
-    filename = f"./uploads/{esn}-{start_timestamp}.xlsx"
- 
-    wb.save(filename)
+        filename = f"./uploads/{esn}-{start_timestamp}.xlsx"
+     
+        wb.save(filename)
 
-    return send_file(filename, as_attachment=True)
+        return send_file(filename, as_attachment=True)
 
 
 @app.route('/upload', methods=['POST'])
@@ -122,7 +127,6 @@ def view(filename):
         'esns': {},
         'een': een_sessions[session['id']]
     }
-
 
     if wb:
         ws = wb.active
