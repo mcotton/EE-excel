@@ -129,6 +129,7 @@ class EagleEye():
             self.bridges = [i[1] for i in res.json() if i[3] == 'bridge']
             self.switches = [i[1] for i in res.json() if i[3] == 'switches']
 
+            self.cameras = []
             for device in [i for i in res.json() if i[3] == 'camera']:
                 c = Camera(
                         camera_id = device[1],

@@ -13,7 +13,16 @@
             </video>
 
             <script>
-                player = document.getElementsByTagName('video')[0]
+                player = document.getElementsByTagName('video')[0];
+
+                function play_video(esn, start_timestamp, end_timestamp, auth_key) {
+                    video_string = ['http://login.eagleeyenetworks.com/asset/play/video.mp4?id=', esn, 
+                                    '&start_timestamp=', start_timestamp,
+                                    '&end_timestamp=', end_timestamp,
+                                    '&A=', auth_key].join('');
+                    player.src = video_string;
+                }
+
             </script>
 
             <table>
@@ -34,15 +43,15 @@
                         <td>{{ item['start_timestamp'] }}</td>
                         <td>{{ item['end_timestamp'] }}</td>
                         <td>
-                            <button onClick="player.src='http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}';">Play</button>
+                            <button onClick="play_video('{{ esn }}', '{{ item['start_timestamp'] }}', '{{ item['end_timestamp'] }}', '{{ template_values['een'].session.cookies['auth_key'] }}')">Play</button>
                         </td>
                         <td>
-                            <a href="http://c000.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
+                            <a href="http://login.eagleeyenetworks.com/asset/play/video.mp4?id={{ esn }}&start_timestamp={{ item['start_timestamp'] }}&end_timestamp={{ item['end_timestamp'] }}">
                                 <button>Download</button>
                             </a>
                         </td>
                         <td>
-                            <a href="https://c000.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
+                            <a href="https://login.eagleeyenetworks.com/hist/index.html?id={{ esn }}&ts={{ item['start_timestamp'] }}" target="_blank">
                                 <button>view in history browser</button>
                             </a>
                         </td>
