@@ -1,6 +1,6 @@
 import json
 import requests
-
+import settings
 
 class Camera():
     def __init__(self, camera_id=None, name=None, bridges=None, utcOffset=None, timezone=None, camera_info=None, camera_info_status_code=None):
@@ -86,6 +86,7 @@ class EagleEye():
     def __init__(self):
         self.host = "https://login.eagleeyenetworks.com"
         self.session = requests.Session()
+        self.headers = { 'Authorization': settings.api_key }
         self.cameras = []
         self.bridges = []
         self.switches = []
@@ -106,7 +107,7 @@ class EagleEye():
         def wrapper(*args, **kwargs):
             """ decorator to check if the current cookie is still valid """
             url = self.host + "/g/aaa/isauth"
-            res = session.get(url, data={})
+            res = session.get(url, headers=self.headers, data={})
 
             if res and res.status_code == 200:
                 return wrapper
@@ -122,7 +123,7 @@ class EagleEye():
     def _update_devices(self):
         """ Gets the list of device ids, filter into correct bucket """
         url = self.host + "/g/device/list"
-        res = self.session.get(url=url)
+        res = self.session.get(url=url, headers=self.headers)
 
         if res and res.status_code == 200:
             #self.cameras = [i[1] for i in res.json() if i[3] == 'camera']
@@ -160,7 +161,7 @@ class EagleEye():
                 "password": password
             }
             url = self.host + "/g/aaa/authenticate"
-            res = self.session.post(url=url, data=payload)
+            res = self.session.post(url=url, headers=self.headers, data=payload)
 
             if res and res.status_code == 200:
                 print("login(step 1): %s" % res.status_code)
@@ -168,7 +169,7 @@ class EagleEye():
                 payload = { 'token': token }
                 url = self.host + "/g/aaa/authorize"
 
-                res = self.session.post(url=url, data=payload)
+                res = self.session.post(url=url, headers=self.headers, data=payload)
 
                 if res and res.status_code == 200:
                     print("login(step 2): %s" % res.status_code)
