@@ -6,6 +6,10 @@
 <div class="container"> 
     <div class="row">
         <div class="col-md-4 offset-4">
+            <h2>Generate an Excel file</h2>
+
+            <p>This will create an Excel file with all the video events for that camera between the date ranges.</p>
+
             <form action="/generate" method="post" enctype="multipart/form-data">
                 <select name="esn" style="width:100%;">
                 {% for camera in cameras %}

@@ -34,15 +34,13 @@
               <p class="text-muted">This is a sample application show how to interact with the Eagle Eye Networks API.  This little webapp can take an excel file and get all the matching videos.  It can also help you generate the spreadsheet from a camera and choosing a date range.</p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
+              {% if session['logged_in'] %}
               <ul class="list-unstyled">
                 <li><a href="/" class="text-white">Upload Spreadsheet</a></li>
                 <li><a href="/devices" class="text-white">Generate Spreadsheet</a></li>
-                <li>
-                  {% if session['logged_in'] %}
-                  <a href="/logout" class="text-white">Logout</a>
-                  {% endif %}
-                </li>
+                <li><a href="/logout" class="text-white">Logout</a></li>
               </ul>
+              {% endif %}
             </div>
           </div>
         </div>
