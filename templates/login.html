@@ -1,16 +1,6 @@
 {% extends "base.html" %}
 
 {% block style %}
-<style>
-    h1 {
-        text-align: center;
-        padding-top: 20px;
-    }
-
-    input {
-        width: 100%;
-    }
-</style>
 {% endblock%}
 
 {% block main %}
@@ -35,11 +25,7 @@
                         <div class="login-form">
                             <div class="control-group">
                                 <input type="text" class="login-field" value="" placeholder="username" name="username">
-                                <label class="login-field-icon fui-user" for="login-name"></label>
-                            </div>
-                            <div class="control-group">
                                 <input type="password" class="login-field" value="" placeholder="password" name="password">
-                                <label class="login-field-icon fui-lock" for="login-pass"></label>
                             </div>
                             <input type="submit" value="Log in" class="btn btn-primary">
                         </div>
