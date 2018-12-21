@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block styel %}
+<style>
+    h1 {
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    input {
+        width: 100%;
+    }
+</style>
+{% endblock%}
+
 {% block main %}
 
 <div class="container"> 
@@ -10,6 +23,11 @@
                     <div class="login-screen">
                         <div class="app-title">
                             <h1>Login</h1>
+                        </div>
+                        <div>
+                            <p>
+                                This is a sample application that shows how to corallate lines in a Excel file with video events in the Eagle Eye Networks API. In order to access your cameras and video events it needs you put login with a valid Eagle Eye Networks user.
+                            </p>
                         </div>
                         <div class="login-form">
                             <div class="control-group">
