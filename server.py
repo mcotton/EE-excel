@@ -25,20 +25,20 @@ def login_required(f):
 
 
  
-@app.route('/')
+@app.route('/excel/')
 def home():
     if not session.get('logged_in'):
-        return redirect('/login')
+        return redirect('/excel/login')
     else:
         return render_template('index.html')
  
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/excel/login', methods=['GET', 'POST'])
 def do_admin_login():
     if request.method == 'GET':
         if not session.get('logged_in'):
             return render_template('login.html')
         else:
-            return redirect('/')
+            return redirect('/excel/')
 
     if request.method == 'POST':
         if 'id' in session:
@@ -62,9 +62,9 @@ def do_admin_login():
         else:
             flash('wrong password!')
         
-        return redirect('/')
+        return redirect('/excel/')
  
-@app.route("/logout")
+@app.route("/excel/logout")
 def logout():
     session['logged_in'] = False
     session['name'] = ''
@@ -77,7 +77,7 @@ def logout():
     return home()
  
 
-@app.route('/generate', methods=['GET', 'POST'])
+@app.route('/excel/generate', methods=['GET', 'POST'])
 @login_required
 def generate_data():
     if request.method == 'GET':
@@ -106,7 +106,7 @@ def generate_data():
         return send_file(filename, as_attachment=True)
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/excel/upload', methods=['POST'])
 @login_required
 def upload_file():
     if request.method == 'POST':
@@ -116,10 +116,10 @@ def upload_file():
         f = request.files['file']
         location = secure_filename(f.filename)
         f.save('./uploads/' + location)
-        return redirect('/view/%s' % location, code=302)
+        return redirect('/excel/view/%s' % location, code=302)
 
 
-@app.route('/view/<path:filename>', methods=['GET'])
+@app.route('/excel/view/<path:filename>', methods=['GET'])
 @login_required
 def view(filename):
     wb = load_workbook('./uploads/' + filename)
@@ -155,4 +155,4 @@ def view(filename):
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True,host='0.0.0.0', port=4000)
+    app.run(debug=False,host='0.0.0.0', port=4000)

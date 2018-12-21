@@ -10,7 +10,7 @@
 
             <p>This will create an Excel file with all the video events for that camera between the date ranges.</p>
 
-            <form action="/generate" method="post" enctype="multipart/form-data">
+            <form action="/excel/generate" method="post" enctype="multipart/form-data">
                 <select name="esn" style="width:100%;">
                 {% for camera in cameras %}
                     <option value="{{ camera.camera_id }}">{{ camera.name }}</option>

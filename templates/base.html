@@ -17,7 +17,7 @@
     <!-- Custom styles for this template -->
 <!--     <link href="album.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet"> -->
-    <link href="/static/style.css" rel="stylesheet">
+    <link href="/excel/static/style.css" rel="stylesheet">
     {% block style %}
     {% endblock %}
 
@@ -36,9 +36,9 @@
             <div class="col-sm-4 offset-md-1 py-4">
               {% if session['logged_in'] %}
               <ul class="list-unstyled">
-                <li><a href="/" class="text-white">Upload Spreadsheet</a></li>
-                <li><a href="/generate" class="text-white">Generate Spreadsheet</a></li>
-                <li><a href="/logout" class="text-white">Logout</a></li>
+                <li><a href="/excel/" class="text-white">Upload Spreadsheet</a></li>
+                <li><a href="/excel/generate" class="text-white">Generate Spreadsheet</a></li>
+                <li><a href="/excel/logout" class="text-white">Logout</a></li>
               </ul>
               {% endif %}
             </div>
