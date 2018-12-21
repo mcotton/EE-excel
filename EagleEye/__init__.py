@@ -1,6 +1,6 @@
 import json
 import requests
-from settings import *
+from .settings import *
 
 class Camera():
     def __init__(self, camera_id=None, name=None, bridges=None, utcOffset=None, timezone=None, camera_info=None, camera_info_status_code=None):
