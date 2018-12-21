@@ -1,5 +1,6 @@
 from flask import Flask
-from flask import Flask, flash, redirect, render_template, request, session, abort, url_for, send_file, send_from_directory
+from flask import flash, redirect, render_template, request, session 
+from flask import abort, url_for, send_file, send_from_directory
 import os
 from functools import wraps
 
@@ -24,9 +25,9 @@ def login_required(f):
     return decorated_function
 
 
-@app.route('/static/<path:path>')
-def send_static_files(path):
-    return send_from_directory('static', path)
+@app.route('/static/<path:filename>')
+def send_static_files(filename):
+    return send_from_directory('static/', filename)
 
  
 @app.route('/')
