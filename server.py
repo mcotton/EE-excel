@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import flash, redirect, render_template, request, session 
 from flask import abort, url_for, send_file, send_from_directory
+
 import os
 from functools import wraps
 
@@ -8,6 +9,10 @@ from werkzeug.utils import secure_filename
 
 from openpyxl import Workbook
 from openpyxl import load_workbook
+
+import requests
+
+import json
 
 from EagleEye import * 
 
@@ -96,7 +101,7 @@ def generate_data():
 
         een = een_sessions[session['id']]
         camera = een.find_by_esn(esn)
-        camera.get_video_list(instance=een, start_timestamp=start_timestamp, end_timestamp=end_timestamp)
+        camera.get_video_list(instance=een, start_timestamp=start_timestamp, end_timestamp=end_timestamp, options='coalesce')
 
         wb = Workbook()
         ws = wb.active
@@ -158,6 +163,56 @@ def view(filename):
     return render_template('upload.html', template_values=ret_obj)
 
 
+@app.route('/excel/api/get_info/<device_id>/<start_timestamp>/<end_timestamp>', methods=['GET'])
+@login_required
+def get_info(device_id, start_timestamp, end_timestamp):
+    auth_key = een_sessions[session['id']].session.cookies['auth_key']
+    url = f"https://login.eagleeyenetworks.com/asset/info/video?id={device_id}&start_timestamp={start_timestamp}&end_timestamp={end_timestamp}&A={auth_key}"
+    print(url)
+    print(auth_key)
+
+    print('making get_info request')
+    res = requests.get(url)
+    print('finishing get_info request')
+
+    print(f"get_info got a {res.status_code}")
+
+    if res.status_code == 200:
+
+        if res.text:
+            return res.text
+
+
+    return json.dumps({ 'proxy_status_code': res.status_code })
+
+
+@app.route('/excel/api/fetch_video/<device_id>/<start_timestamp>/<end_timestamp>', methods=['GET'])
+@login_required
+def fetch_video(device_id, start_timestamp, end_timestamp):
+    auth_key = een_sessions[session['id']].session.cookies['auth_key']
+    url = f"https://login.eagleeyenetworks.com/asset/cloud/video.flv?id={device_id}&start_timestamp={start_timestamp}&end_timestamp={end_timestamp}$webhook_url=https%3A%2F%2Fmcotton.tech%2Fdumpster%2F&A={auth_key}"
+    print(url)
+    print(auth_key)
+    
+    print('making fetch_video request')
+    res = requests.head(url)
+    print('finished fetch_video reqeust')
+    
+    print(f"fetch_video got a {res.status_code}")
+
+    if res.status_code == 200:
+        pass
+
+    if res.status_code == 202:
+        pass
+
+
+    return json.dumps({ 'proxy_status_code': res.status_code })
+
+
+
+
+
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=False,host='0.0.0.0', port=4000)
+    app.run(debug=True,host='0.0.0.0', port=4000)

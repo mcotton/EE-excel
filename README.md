@@ -6,3 +6,7 @@ You need to do some stuff to get this up and running
  - you'll need to have requests, flask, openpyxl installed
  - create an `uploads` directory
  - set debug to `False `
+ - `pip3 install -r requirements.txt`
+ - `export FLASK_ENV=production`
+ - `chomod +x startup.sh`
+ - `./startup.sh`
