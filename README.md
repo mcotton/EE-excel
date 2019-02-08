@@ -10,3 +10,9 @@ You need to do some stuff to get this up and running
  - `export FLASK_ENV=production`
  - `chomod +x startup.sh`
  - `./startup.sh`
+
+
+ actually, you should really just use docker
+
+  - `docker build -t ee-excel .`
+  - `docker run -d -p 4000:4000 ee-excel`
