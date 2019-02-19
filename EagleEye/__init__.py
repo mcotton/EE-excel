@@ -150,6 +150,13 @@ class EagleEye():
         pattern = "%Y%m%d%H%M%S.%f"
         return in_time.strftime(pattern)[:-3]
 
+    def _EEN_timestamp_to_datetime(een_time):
+        """
+            Take a EEN timestamp string and returns a datetime object
+        """
+        pattern = "%Y%m%d%H%M%S.%f"
+        return datetime.strptime(een_time, pattern)
+
     def login(self, username=None, password=None):
         """ 
             Goes through the two step login process.  
