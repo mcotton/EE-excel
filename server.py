@@ -190,12 +190,12 @@ def get_info(device_id, start_timestamp, end_timestamp):
 @login_required
 def fetch_video(device_id, start_timestamp, end_timestamp):
     auth_key = een_sessions[session['id']].session.cookies['auth_key']
-    url = f"https://login.eagleeyenetworks.com/asset/cloud/video.flv?id={device_id}&start_timestamp={start_timestamp}&end_timestamp={end_timestamp}$webhook_url=https%3A%2F%2Fmcotton.tech%2Fdumpster%2F&A={auth_key}"
+    url = f"{een_sessions[session['id']].host}/asset/cloud/video.flv?id={device_id}&start_timestamp={start_timestamp}&end_timestamp={end_timestamp}&webhook_url=https%3A%2F%2Feen.cloud%2Fdumpster%2F&A={auth_key}"
     print(url)
     print(auth_key)
     
     print('making fetch_video request')
-    res = requests.head(url)
+    res = requests.get(url)
     print('finished fetch_video reqeust')
     
     print(f"fetch_video got a {res.status_code}")
